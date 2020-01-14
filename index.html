@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #table {
+                width: 500px;
+                background-color: #b2dbf3;
+            }
+
+        </style>
+
+    </head>
+    <body id="mainBody">
+
+        <h1>The Library</h1>
+
+        <div id="table">
+            
+        </div>
+        
+        <button id="newBookButton">New Book</button>
+
+        <div>
+            Name of New Book <input type="text-input" name="bookName" id="bookName">
+            Author's Name <input type="text-input" name="bookAuthor" id="bookAuthor">
+            Number of pages in book <input type="text-input" name="numberPages" id="numberPages">
+            Has it been read <input type="checkbox" id="readStatus">
+            <button id="formSubmit" type="submit" > Submit To library </button>
+        </div>
+
+    </body>
+
+    <script>
+        let mylibrary = [];
+
+        let harry = new Book("harry potter", "jk", 255, true);
+        let lotr = new Book("lord of the rings", "tolkin", 545, false);
+
+        mylibrary.push(harry);
+        mylibrary.push(lotr);
+
+        // book object
+        function Book(nameBook, author, numPages, readStatusVal){
+            this.name = nameBook;
+            this.author = author;
+            this.numberOfPages = numPages;
+            this.readStatus = readStatusVal;
+            
+        }
+
+        function addBookToLibrary(){
+            let bookName = document.getElementById("bookName").value;
+            let bookAuthor = document.getElementById("bookAuthor").value;
+            let numberPages = document.getElementById("numberPages").value;
+            let readStatus = document.getElementById("readStatus").checked;
+
+            let newbook = Book(bookName, bookAuthor, numberPages, readStatus);
+            mylibrary.push(new Book(bookName, bookAuthor, numberPages, readStatus));
+
+            
+
+            console.log(`book Name is ${bookName} book author is ${bookAuthor} numberPages is ${numberPages} readStatus is ${readStatus}`)
+        }
+
+        function printAllBooks(){
+            console.log(mylibrary.length)
+
+            for(let x = 0; x < mylibrary.length; x++){
+                console.log(mylibrary[x].name);
+            }
+        }
+
+        function renderData(){
+            let dataTable = document.getElementById("table");
+            dataTable.innerHTML = ""
+            
+            for(let x = 0; x < mylibrary.length; x++){
+                
+                let checkBoxValue;
+                let tempBook = mylibrary[x];
+                if (tempBook.readStatus == false){
+                    checkBoxValue = "";
+                }
+                if (tempBook.readStatus == true){
+                    checkBoxValue = "checked";
+                }
+                dataTable.innerHTML += `<p>Book Name: ${mylibrary[x].name}, Author ${mylibrary[x].author}, Number of pages ${mylibrary[x].numberOfPages}, Read Status <input type="checkbox" ${checkBoxValue}> </p>`;
+            }
+        }
+
+        let submitButton = document.getElementById("formSubmit");
+        submitButton.addEventListener('click', addBookToLibrary)
+
+        document.addEventListener("DOMContentLoaded", renderData);
+
+    </script>
+
+<html>
